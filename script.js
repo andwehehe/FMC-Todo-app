@@ -56,12 +56,18 @@ window.addEventListener('resize', changeSize);
 // Theme Toggle
 const themeToggle = document.querySelector(".light-dark-checkbox");
 const body = document.querySelector("body");
+const toggleIcon = document.querySelector(".light-dark-icon");
+const lightIcon = "assets/images/icon-moon.svg";
+const darkIcon = "assets/images/icon-sun.svg";
+
 themeToggle.addEventListener('change', () => {
     if(themeToggle.checked) {
       changeSize();
       body.classList.add("light-theme");
+      toggleIcon.src = lightIcon;
     } else {
       changeSize();
       body.classList.remove("light-theme");
+      toggleIcon.src = darkIcon;
     }
 })
