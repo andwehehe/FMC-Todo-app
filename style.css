@@ -1,0 +1,217 @@
+*,
+*::before,
+*::after {
+  font-family: 'Josefin Sans', sans-serif;
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+    --blue-500: hsl(220, 98%, 61%);
+    --check-background: linear-gradient(to bottom right, hsl(192, 100%, 67%), hsl(280, 87%, 65%));
+
+    --gray-50: hsl(0, 0%, 98%);
+    --purple-300: hsl(234, 39%, 85%);
+    --gray-300: hsl(233, 11%, 84%);
+    --gray-600: hsl(236, 9%, 61%);
+    --navy-850: hsl(235, 19%, 35%);
+
+    --navy-950: hsl(235, 21%, 11%);
+    --navy-900: hsl(235, 24%, 19%);
+    --purple-300: hsl(234, 39%, 85%);
+    --purple-100-hover: hsl(236, 33%, 92%);
+    --purple-600: hsl(235, 16%, 43%);
+    --purple-700: hsl(233, 14%, 35%);
+    --purple-800: hsl(237, 14%, 26%);
+    --gray-600: hsl(236, 9%, 61%);
+
+    --weight-700: 700;
+    --corners: 0.3rem;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url(assets/fonts/josefin-sans-v34-latin-regular.woff2);
+  font-weight: 400;;
+}
+
+@font-face {
+  font-family: 'Josefin Sans';
+  src: url(assets/fonts/josefin-sans-v34-latin-700.woff2);
+  font-weight: 700;;
+}
+
+body {
+  width: 100vw;
+  background-color: var(--navy-950);
+}
+
+
+/* > > > Typography < < < */
+.heading {
+  font-size: 0.8rem;
+  color: var(--gray-50);
+  letter-spacing: 0.7rem;
+}
+
+.add-task__input,
+.add-task__input::placeholder {
+  color: var(--gray-600);
+  font-size: 0.7rem;
+}
+
+.items {
+  color: var(--gray-300);
+  font-size: 0.7rem;
+}
+
+.status-bar {
+  color: var(--navy-850);
+  font-size: 0.75rem;
+  font-weight: var(--weight-700);
+}
+
+.filter {
+  color: var(--navy-850);
+  font-size: 1rem;
+  font-weight: var(--weight-700);
+}
+
+.filter__label:has(.filter__radio:checked) {
+  color: var(--blue-500);
+}
+
+.footer {
+  color: var(--navy-850);
+  font-size: 0.88rem;
+}
+
+
+/* > > > Header < < < */
+.header-image {
+  width: 100%;
+  max-height: 267px;
+  position: absolute;
+  z-index: -1;
+}
+
+.heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3rem 1.5rem 2.2rem 1.5rem;
+}
+
+.light-dark-icon {
+  width: 1.3rem;
+}
+
+.light-dark-checkbox {
+  display: none;
+}
+
+
+/* > > > Main < < < */
+.main-content {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 1.5rem;
+}
+
+.add-task {
+  display: flex;
+  gap: 0.7rem;
+  padding: 1rem 1.3rem;
+  margin-block-end: 1rem;
+  border-radius: var(--corners);
+  background-color: var(--navy-900);
+}
+
+.pseudo-checkbox,
+.checkmark-label {
+  width: 1.2rem;
+  height: 1.2rem;
+  border: solid 1.5px var(--navy-850);
+  border-radius: 50%;
+}
+
+.add-task__input,
+.add-task__input:active  {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+
+/* > > > Todo list < < < */
+.todo-list {
+  overflow: hidden;
+  list-style: none;
+  background-color: var(--navy-900);
+  border-radius: var(--corners) var(--corners) 0 0;
+  box-shadow: 0 4rem 2rem 0 black;
+}
+
+.items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: solid 1.5px var(--navy-850);
+  padding: 1rem 1.3rem;
+}
+
+.items-sub-container {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.checkmark {
+  display: none;
+}
+
+.checkmark-label:has(.checkmark:checked) {
+  background: var(--check-background);
+}
+
+.task {
+  padding-block-start: 0.2rem;
+}
+
+.remove-icon {
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+
+/* > > > Status Bar < < < */
+.status-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 1.25rem 1.3rem;
+  border-radius: 0 0 var(--corners) var(--corners);
+  background-color: var(--navy-900);
+}
+
+.filter {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  padding:1.23rem 1.3rem 1.03rem 1.3rem;
+  margin-block-start: 1rem;
+  border-radius: var(--corners);
+  background-color: var(--navy-900);
+  box-shadow: 0 1.3rem 5rem 0 rgb(0, 0, 0, 0.7);
+}
+
+.filter__radio {
+  display: none;
+}
+
+
+/* > > > Footer < < < */
+.footer {
+  text-align: center;
+  margin-block: 3rem;
+}

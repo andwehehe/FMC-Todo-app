@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="assets/images/favicon-32x32.png" sizes="favicon-32x32" type="images/png">
+  <title>Frontend Mentor : Todo App</title>
+</head>
+<body>
+
+  <img src="assets/images/bg-mobile-dark.jpg" alt="background design" class="header-image">
+
+  <header class="heading">
+    <h1 class="logo">TODO</h1>
+    <label class="light-dark-toggle">
+      <img src="assets/images/icon-sun.svg" alt="sun icon" class="light-dark-icon">
+      <input type="checkbox" class="light-dark-checkbox">
+    </label>
+  </header>
+
+  <main class="main-content">
+    
+    <label class="add-task">
+      <div class="pseudo-checkbox"></div>
+      <input type="text" class="add-task__input" placeholder="Create a new todo...">
+    </label>
+
+    <ul class="todo-list">
+      <li class="item-1 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">Complete online JavaScript course</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+
+      <li class="item-2 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">Jog around the park 3x</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+
+      <li class="item-3 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">10 minutes meditation</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+
+      <li class="item-4 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">Read for 1hour</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+
+      <li class="item-5 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">Pick up groceries</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+
+      <li class="item-6 items">
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+          </label>
+          <p class="task">Complete Todo App on Frontend Mentor</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      </li>
+    </ul>
+
+    <article class="status-bar">
+      <p class="items-left">6 items left</p>
+      <p class="clear-completed">Clear Completed</p>
+    </article>
+
+    <article class="filter">
+      <label class="filter__label">
+        All
+        <input type="radio" name="filter" class="filter__radio" checked>
+      </label>
+
+      <label class="filter__label">
+        Active
+        <input type="radio" name="filter" class="filter__radio">
+      </label>
+
+      <label class="filter__label">
+        Inactive
+        <input type="radio" name="filter" class="filter__radio">
+      </label>
+    </article>
+
+  </main>
+
+  <footer class="footer">Drag and drop to reorder list</footer>
+
+</body>
+</html>
