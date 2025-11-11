@@ -50,7 +50,7 @@ body {
 
 /* > > > Typography < < < */
 .heading {
-  font-size: 0.8rem;
+  font-size: clamp(0.8rem, 3vw, 1.1rem);
   color: var(--gray-50);
   letter-spacing: 0.7rem;
 }
@@ -58,12 +58,12 @@ body {
 .add-task__input,
 .add-task__input::placeholder {
   color: var(--gray-600);
-  font-size: 0.7rem;
+  font-size: clamp(0.8rem, 3vw, 1rem);
 }
 
 .items {
   color: var(--gray-300);
-  font-size: 0.7rem;
+  font-size: clamp(0.73rem, 3vw, 1rem);
 }
 
 .status-bar {
@@ -100,7 +100,11 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 3rem 1.5rem 2.2rem 1.5rem;
+  margin: 0 auto;
+  max-width: 37rem;
+  padding-inline: 1.5rem;
+  padding-block: 3rem 2.2rem;
+  padding-block-start: clamp(3rem, 10vw, 4.5rem);
 }
 
 .light-dark-icon {
@@ -117,6 +121,8 @@ body {
   display: flex;
   flex-direction: column;
   padding-inline: 1.5rem;
+  max-width: 37rem;
+  margin: 0 auto;
 }
 
 .add-task {
@@ -157,7 +163,7 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: solid 1.5px var(--navy-850);
+  border-bottom: solid 1.8px var(--navy-850);
   padding: 1rem 1.3rem;
 }
 
@@ -167,12 +173,27 @@ body {
   gap: 0.7rem;
 }
 
+.checkmark-label {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checked {
+  width: 0.6rem;
+  display: none;
+}
+
 .checkmark {
   display: none;
 }
 
 .checkmark-label:has(.checkmark:checked) {
   background: var(--check-background);
+}
+
+.checkmark:checked + .checked {
+  display: block;
 }
 
 .task {
@@ -214,4 +235,60 @@ body {
 .footer {
   text-align: center;
   margin-block: 3rem;
+}
+
+/* > > > LIGHT MODE < < < */
+
+/* 
+body
+.add-task
+.psuedo-checkbox
+.checkmark-label
+.todo-list
+.items
+.status-bar
+.filter
+.footer
+*/
+
+.light-theme {
+  background-color: var(--gray-50);
+}
+
+.light-theme .add-task {
+  background-color: var(--gray-50);
+}
+
+.light-theme .add-task__input {
+  color: var(--navy-850);
+}
+
+.light-theme .pseudo-checkbox,
+.light-theme .checkmark-label {
+  border-color: var(--gray-300);
+}
+
+.light-theme .todo-list {
+  background-color: var(--gray-50);
+  box-shadow: 0 5rem 12rem 0 rgb(194, 193, 193);
+}
+
+.light-theme .items {
+  border-color: var(--gray-300);
+  color: var(--navy-850);
+}
+
+.light-theme .status-bar {
+  background-color: var(--gray-50);
+  color: var(--gray-600);
+}
+
+.light-theme .filter {
+  background-color: var(--gray-50);
+  color: var(--gray-600);
+  box-shadow: none;
+}
+
+.light-theme .footer {
+  color: var(--gray-600);
 }
