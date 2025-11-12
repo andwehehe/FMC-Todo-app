@@ -27,7 +27,7 @@
     </label>
 
     <ul class="todo-list">
-      <li class="item-1 items">
+      <li class="items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -38,7 +38,7 @@
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
 
-      <li class="item-2 items">
+      <li class="items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -49,7 +49,7 @@
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
 
-      <li class="item-3 items">
+      <li class="items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -60,7 +60,7 @@
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
 
-      <li class="item-4 items">
+      <li class="items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -71,7 +71,7 @@
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
 
-      <li class="item-5 items">
+      <li class=" items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -82,7 +82,7 @@
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
 
-      <li class="item-6 items">
+      <li class="items">
         <div class="items-sub-container">
           <label class="checkmark-label">
             <input type="checkbox" class="checkmark">
@@ -92,10 +92,31 @@
         </div>
         <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
       </li>
+
+      <p class="empty-todo">Todo list is empty.</p>
+
     </ul>
 
     <article class="status-bar">
-      <p class="items-left">6 items left</p>
+      <p class="items-left"><span class="items-count">6</span> items left</p>
+
+      <article class="integrated-filter">
+        <label class="filter__label">
+          All
+          <input type="radio" name="integrated-filter" class="filter__radio" checked>
+        </label>
+
+        <label class="filter__label">
+          Active
+          <input type="radio" name="integrated-filter" class="filter__radio">
+        </label>
+
+        <label class="filter__label">
+          Inactive
+          <input type="radio" name="integrated-filter" class="filter__radio">
+        </label>
+      </article>
+
       <p class="clear-completed">Clear Completed</p>
     </article>
 

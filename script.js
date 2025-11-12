@@ -1,17 +1,29 @@
 // Checked function
-const checkmarks = document.querySelectorAll(".checkmark");
+const todoList = document.querySelector(".todo-list");
 const tasks = document.querySelectorAll(".task");
 
-checkmarks.forEach((checkmark, index) => {
-  checkmark.addEventListener('change', () => {
-    if(checkmark.checked) {
-      tasks[index].style.textDecoration = "line-through";
-      tasks[index].style.color = "hsl(235, 19%, 35%)";
-    } else {
-      tasks[index].style.textDecoration = "";
-      tasks[index].style.color = "";
+todoList.addEventListener('change', (event) => {
+  if(event.target.classList.contains("checkmark")) {
+    
+    const closestSubCon = event.target.closest(".items-sub-container");
+
+    if(closestSubCon) {
+
+      const task = closestSubCon.querySelector(".task");
+
+      if(task) {
+        if(event.target.checked) {
+          task.style.textDecoration = "line-through";
+          task.style.color = "hsl(235, 19%, 35%)";
+        } else {
+          task.style.textDecoration = "";
+          task.style.color = "";
+        }
+      }
+
     }
-  })
+
+  }
 })
 
 // Header Image Switching
@@ -70,4 +82,64 @@ themeToggle.addEventListener('change', () => {
       body.classList.remove("light-theme");
       toggleIcon.src = darkIcon;
     }
+})
+
+// Remove Button function
+const emptyTodo = document.querySelector(".empty-todo");
+const items = todoList.querySelectorAll(".items");
+let itemsCount = document.querySelector(".items-count");
+
+todoList.addEventListener('click', (event) => {
+  if(event.target.classList.contains("remove-icon")) {
+    const closestItem = event.target.closest(".items");
+
+    if(closestItem) {
+      closestItem.remove();
+    }
+
+    const currentItemsCount = todoList.querySelectorAll(".items").length;
+
+    if(currentItemsCount === 0) {
+      todoList.classList.add("empty-todo-list");
+      emptyTodo.style.display = "block";
+    }
+
+    itemsCount.textContent = currentItemsCount;
+  }
+})
+
+// Add Todo
+const addTaskInput = document.querySelector(".add-task__input");
+
+addTaskInput.addEventListener('keydown', (event) => {
+  if(event.key === 'Enter' ) {
+
+    const newTask = addTaskInput.value.trim();
+
+    if(newTask !== '') {
+      const addTask = document.createElement('li');
+      addTask.classList.add("items");
+
+      addTask.innerHTML = `
+        <div class="items-sub-container">
+          <label class="checkmark-label">
+            <input type="checkbox" class="checkmark">
+            <img src="assets/images/icon-check.svg" alt="checked" class="checked">
+          </label>
+          <p class="task">${newTask}</p>
+        </div>
+        <img src="assets/images/icon-cross.svg" alt="remove icon" class="remove-icon">
+      `;
+
+      todoList.appendChild(addTask);
+      addTaskInput.value = '';
+
+      const currentItemsCount = todoList.querySelectorAll(".items").length;
+      itemsCount.textContent = currentItemsCount;
+
+      todoList.classList.remove("empty-todo-list");
+      emptyTodo.style.display = "";
+    }
+
+  }
 })
