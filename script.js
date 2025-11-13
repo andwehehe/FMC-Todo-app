@@ -97,14 +97,8 @@ todoList.addEventListener('click', (event) => {
       closestItem.remove();
     }
 
-    const currentItemsCount = todoList.querySelectorAll(".items").length;
+    isEmpty();
 
-    if(currentItemsCount === 0) {
-      todoList.classList.add("empty-todo-list");
-      emptyTodo.style.display = "block";
-    }
-
-    itemsCount.textContent = currentItemsCount;
   }
 })
 
@@ -142,4 +136,110 @@ addTaskInput.addEventListener('keydown', (event) => {
     }
 
   }
+})
+
+//Clear completed function
+const clearCompleted = document.querySelector(".clear-completed");
+ 
+clearCompleted.addEventListener('click', () => {
+    const completed = todoList.querySelectorAll(".items");
+    const checkmarks = todoList.querySelectorAll(".checkmark");
+ 
+    checkmarks.forEach((checkmark, index) => {
+        if(checkmark.checked) {
+            completed[index].remove();
+        }
+    })
+
+    isEmpty();
+})
+
+function isEmpty() {
+  const currentItemsCount = todoList.querySelectorAll(".items").length;
+
+  if(currentItemsCount === 0) {
+    todoList.classList.add("empty-todo-list");
+    emptyTodo.style.display = "block";
+  }
+
+  itemsCount.textContent = currentItemsCount;
+}
+
+// Todo Filter
+const filterAll = document.querySelectorAll(".filter__all");
+const filterActive = document.querySelectorAll(".filter__active");
+const filterInactive = document.querySelectorAll(".filter__inactive");
+let taskCount = 0;
+
+function showAll() {
+  const items = todoList.querySelectorAll(".items");
+  taskCount = 0;
+
+  items.forEach(item => {
+    item.style.display = "flex"
+    taskCount++;
+  })
+
+  itemsCount.textContent = taskCount;
+}
+
+function syncFilters(filterType) {
+
+  filterType.forEach(filter => {
+    filter.addEventListener('change', () => {
+      if(filterType[0].checked || filterType[1].checked) {
+        filterType[0].checked = true;
+        filterType[1].checked = true;
+      }
+    })
+  })
+
+}
+
+syncFilters(filterAll);
+syncFilters(filterActive);
+syncFilters(filterInactive);
+
+showAll();
+
+filterAll.forEach(all => {
+  all.addEventListener('change', showAll);
+})
+
+filterActive.forEach(active => {
+
+  active.addEventListener('change', () => {
+    showAll();
+    const items = todoList.querySelectorAll(".items")
+    const checkmarks = todoList.querySelectorAll(".checkmark");
+
+    checkmarks.forEach((checkmark, index) => {
+      if(checkmark.checked) {
+        items[index].style.display = "none";
+        taskCount--;
+      }
+    })
+
+    itemsCount.textContent = taskCount;
+  })
+
+})
+
+filterInactive.forEach(inactive => {
+
+  inactive.addEventListener('change', () => {
+    showAll();
+    const items = todoList.querySelectorAll(".items")
+    const checkmarks = todoList.querySelectorAll(".checkmark");
+
+    checkmarks.forEach((checkmark, index) => {
+      if(!checkmark.checked) {
+        items[index].style.display = "none";
+        taskCount--;
+      }
+    })
+
+    itemsCount.textContent = taskCount;
+  })
+
 })
