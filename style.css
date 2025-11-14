@@ -192,9 +192,12 @@ body {
 .checkmark {
   display: none;
 }
-
 .checkmark-label:has(.checkmark:checked) {
   background: var(--check-background);
+}
+
+.checkmark-label:has(.checkmark:checked) .checkbox-cover {
+  display: none;
 }
 
 .checkmark:checked + .checked {
@@ -218,6 +221,14 @@ body {
 
 .empty-todo {
   display: none;
+}
+
+.checkbox-cover {
+  width: 93%;
+  height: 90%;
+  border-radius: 50%;
+  margin-inline-end: 0.05rem;
+  background-color: var(--navy-900);
 }
 
 /* > > > Status Bar < < < */
@@ -267,11 +278,13 @@ body
 .add-task
 .psuedo-checkbox
 .checkmark-label
+.checkbox-cover
 .todo-list
 .empty-todo
 .items
 .status-bar
 .filter
+.filter__label
 .footer
 */
 
@@ -313,12 +326,20 @@ body
   box-shadow: none;
 }
 
+.light-theme .filter__label {
+  color: var(--gray-600);
+}
+
 .light-theme .footer {
   color: var(--gray-600);
 }
 
 .light-theme .empty-todo {
   color: var(--gray-600);
+}
+
+.light-theme .checkbox-cover {
+  background-color: var(--gray-50);
 }
 
 
@@ -333,4 +354,38 @@ body
     display: flex;
     gap: 1rem;
   }
+  
+  .remove-icon {
+    display: none;
+  }
+
+  .items:hover .remove-icon{
+    display: block;
+  }
+}
+
+
+
+/* Hover and active effects */
+.checkmark-label:hover,
+.task:hover,
+.filter__label:hover,
+.clear-completed:hover,
+.remove-icon:hover,
+.items {
+  cursor: pointer;
+}
+
+.checkmark-label:hover {
+  background: var(--check-background);
+}
+
+.filter__label:hover,
+.clear-completed:hover {
+  color: var(--gray-300);
+}
+
+.light-theme .filter__label:hover,
+.light-theme .clear-completed:hover {
+  color: var(--navy-850);
 }

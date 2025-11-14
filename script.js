@@ -117,6 +117,7 @@ addTaskInput.addEventListener('keydown', (event) => {
       addTask.innerHTML = `
         <div class="items-sub-container">
           <label class="checkmark-label">
+            <div class="checkbox-cover"></div>
             <input type="checkbox" class="checkmark">
             <img src="assets/images/icon-check.svg" alt="checked" class="checked">
           </label>
@@ -243,3 +244,17 @@ filterInactive.forEach(inactive => {
   })
 
 })
+
+function todoListMinHeight() {
+  const todoList = document.querySelector(".todo-list");
+  const items = todoList.querySelectorAll(".items");
+
+  const itemsHeight = items[0].getBoundingClientRect().height;
+  const minHeight = itemsHeight * 6;
+
+  todoList.style.minHeight = `${minHeight}px`;
+}
+
+todoListMinHeight();
+
+todoList.addEventListener('resize', todoListMinHeight);
