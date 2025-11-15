@@ -1,10 +1,40 @@
+// items cound base on filter
+const itemsCount = document.querySelector(".items-count");
+let count = {
+  all: 6,
+  active: 6,
+  inactive: 0
+}
+
+let currentFilter = {
+  all: true,
+  active: false,
+  inactive: false
+}
+
+
+// Display count base on current filter
+function displayCount() {
+  switch(true) {
+    case currentFilter.all:
+      itemsCount.textContent = count.all;
+      break;
+    case currentFilter.active:
+      itemsCount.textContent = count.active;
+      break;
+    case currentFilter.inactive:
+      itemsCount.textContent = count.inactive;
+      break;
+  }
+}
+
 // Checked function
 const todoList = document.querySelector(".todo-list");
 const tasks = document.querySelectorAll(".task");
 
 todoList.addEventListener('change', (event) => {
+
   if(event.target.classList.contains("checkmark")) {
-    
     const closestSubCon = event.target.closest(".items-sub-container");
 
     if(closestSubCon) {
@@ -15,15 +45,19 @@ todoList.addEventListener('change', (event) => {
         if(event.target.checked) {
           task.style.textDecoration = "line-through";
           task.style.color = "hsl(235, 19%, 35%)";
+          count.inactive++;
+          count.active--;
         } else {
           task.style.textDecoration = "";
           task.style.color = "";
+          count.inactive--;
+          count.active++;
         }
       }
 
     }
-
   }
+
 })
 
 // Header Image Switching
@@ -87,16 +121,24 @@ themeToggle.addEventListener('change', () => {
 // Remove Button function
 const emptyTodo = document.querySelector(".empty-todo");
 const items = todoList.querySelectorAll(".items");
-let itemsCount = document.querySelector(".items-count");
 
 todoList.addEventListener('click', (event) => {
   if(event.target.classList.contains("remove-icon")) {
     const closestItem = event.target.closest(".items");
+    const isActive = closestItem.querySelector(".checkmark");
+    
+    if(isActive.checked) {
+      count.inactive--;
+    } else {
+      count.active--;
+    }
 
     if(closestItem) {
       closestItem.remove();
+      count.all--;
     }
-
+    
+    displayCount();  
     isEmpty();
 
   }
@@ -129,8 +171,9 @@ addTaskInput.addEventListener('keydown', (event) => {
       todoList.appendChild(addTask);
       addTaskInput.value = '';
 
-      const currentItemsCount = todoList.querySelectorAll(".items").length;
-      itemsCount.textContent = currentItemsCount;
+      count.all++;
+      count.active++;
+      itemsCount.textContent = count.all;
 
       todoList.classList.remove("empty-todo-list");
       emptyTodo.style.display = "";
@@ -152,13 +195,15 @@ clearCompleted.addEventListener('click', () => {
         }
     })
 
+    count.all -= count.inactive;
+    count.inactive = 0;
+
+    displayCount()
     isEmpty();
 })
 
 function isEmpty() {
-  const currentItemsCount = todoList.querySelectorAll(".items").length;
-
-  if(currentItemsCount === 0) {
+  if(count.all === 0) {
     todoList.classList.add("empty-todo-list");
     emptyTodo.style.display = "block";
   }
@@ -170,19 +215,6 @@ function isEmpty() {
 const filterAll = document.querySelectorAll(".filter__all");
 const filterActive = document.querySelectorAll(".filter__active");
 const filterInactive = document.querySelectorAll(".filter__inactive");
-let taskCount = 0;
-
-function showAll() {
-  const items = todoList.querySelectorAll(".items");
-  taskCount = 0;
-
-  items.forEach(item => {
-    item.style.display = "flex"
-    taskCount++;
-  })
-
-  itemsCount.textContent = taskCount;
-}
 
 function syncFilters(filterType) {
 
@@ -201,27 +233,43 @@ syncFilters(filterAll);
 syncFilters(filterActive);
 syncFilters(filterInactive);
 
-showAll();
+
+function filterReset() {
+  const items = todoList.querySelectorAll(".items");
+
+  items.forEach(item => {
+    item.style.display = "flex";
+  })
+}
 
 filterAll.forEach(all => {
-  all.addEventListener('change', showAll);
+  all.addEventListener('change', () => {
+    filterReset();
+    itemsCount.textContent = count.all;
+    currentFilter.inactive = false;
+    currentFilter.active = false;
+    currentFilter.all = true;
+  })
 })
 
 filterActive.forEach(active => {
 
   active.addEventListener('change', () => {
-    showAll();
+    filterReset();
+
     const items = todoList.querySelectorAll(".items")
     const checkmarks = todoList.querySelectorAll(".checkmark");
 
     checkmarks.forEach((checkmark, index) => {
       if(checkmark.checked) {
         items[index].style.display = "none";
-        taskCount--;
       }
     })
 
-    itemsCount.textContent = taskCount;
+    itemsCount.textContent = count.active;
+    currentFilter.active = true;
+    currentFilter.inactive = true;
+    currentFilter.all = false;
   })
 
 })
@@ -229,18 +277,20 @@ filterActive.forEach(active => {
 filterInactive.forEach(inactive => {
 
   inactive.addEventListener('change', () => {
-    showAll();
+    filterReset();
     const items = todoList.querySelectorAll(".items")
     const checkmarks = todoList.querySelectorAll(".checkmark");
 
     checkmarks.forEach((checkmark, index) => {
       if(!checkmark.checked) {
         items[index].style.display = "none";
-        taskCount--;
       }
     })
 
-    itemsCount.textContent = taskCount;
+    itemsCount.textContent = count.inactive;
+    currentFilter.inactive = true;
+    currentFilter.active = false;
+    currentFilter.all = false;
   })
 
 })
@@ -256,5 +306,4 @@ function todoListMinHeight() {
 }
 
 todoListMinHeight();
-
 todoList.addEventListener('resize', todoListMinHeight);
