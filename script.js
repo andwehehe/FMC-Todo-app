@@ -42,14 +42,29 @@ todoList.addEventListener('change', (event) => {
       const task = closestSubCon.querySelector(".task");
 
       if(task) {
-        if(event.target.checked) {
-          task.style.textDecoration = "line-through";
-          task.style.color = "hsl(235, 19%, 35%)";
+        if(event.target.checked && currentFilter.all) {
+          getAll();
+          task.classList.add("completed");
           count.inactive++;
           count.active--;
+          displayCount();
+          isEmpty();
+        } else if(event.target.checked && currentFilter.active) {
+          getAllActive();
+          task.classList.add("completed");
+          count.inactive++;
+          count.active--;
+          displayCount();
+          isEmpty();
+        } else if(!event.target.checked && currentFilter.inactive) {
+          getAllInactive();
+          task.classList.remove("completed");
+          count.inactive--;
+          count.active++;
+          displayCount();
+          isEmpty();
         } else {
-          task.style.textDecoration = "";
-          task.style.color = "";
+          task.classList.remove("completed");
           count.inactive--;
           count.active++;
         }
@@ -155,6 +170,7 @@ addTaskInput.addEventListener('keydown', (event) => {
     if(newTask !== '') {
       const addTask = document.createElement('li');
       addTask.classList.add("items");
+      addTask.draggable = true;
 
       addTask.innerHTML = `
         <div class="items-sub-container">
@@ -203,12 +219,19 @@ clearCompleted.addEventListener('click', () => {
 })
 
 function isEmpty() {
-  if(count.all === 0) {
+  if(
+    (count.all === 0 && currentFilter.all) ||
+    (count.active === 0 && currentFilter.active) ||
+    (count.inactive === 0 && currentFilter.inactive)
+  ) {
     todoList.classList.add("empty-todo-list");
     emptyTodo.style.display = "block";
+  } else {
+    todoList.classList.remove("empty-todo-list");
+    emptyTodo.style.display = "";
   }
 
-  itemsCount.textContent = currentItemsCount;
+  displayCount();
 }
 
 // Todo Filter
@@ -242,57 +265,65 @@ function filterReset() {
   })
 }
 
-filterAll.forEach(all => {
-  all.addEventListener('change', () => {
-    filterReset();
-    itemsCount.textContent = count.all;
-    currentFilter.inactive = false;
-    currentFilter.active = false;
-    currentFilter.all = true;
+function getAll() {
+  filterReset();
+  itemsCount.textContent = count.all;
+  currentFilter.inactive = false;
+  currentFilter.active = false;
+  currentFilter.all = true;
+
+  isEmpty();
+}
+
+function getAllActive() {
+  filterReset();
+
+  const items = todoList.querySelectorAll(".items")
+  const checkmarks = todoList.querySelectorAll(".checkmark");
+
+  checkmarks.forEach((checkmark, index) => {
+    if(checkmark.checked) {
+      items[index].style.display = "none";
+    }
   })
+
+  itemsCount.textContent = count.active;
+  currentFilter.active = true;
+  currentFilter.inactive = false;
+  currentFilter.all = false;
+
+  isEmpty();
+}
+
+function getAllInactive() {
+  filterReset();
+  const items = todoList.querySelectorAll(".items")
+  const checkmarks = todoList.querySelectorAll(".checkmark");
+
+  checkmarks.forEach((checkmark, index) => {
+    if(!checkmark.checked) {
+      items[index].style.display = "none";
+    }
+  })
+
+  itemsCount.textContent = count.inactive;
+  currentFilter.inactive = true;
+  currentFilter.active = false;
+  currentFilter.all = false;
+
+  isEmpty();
+}
+
+filterAll.forEach(all => {
+  all.addEventListener('change', getAll)
 })
 
 filterActive.forEach(active => {
-
-  active.addEventListener('change', () => {
-    filterReset();
-
-    const items = todoList.querySelectorAll(".items")
-    const checkmarks = todoList.querySelectorAll(".checkmark");
-
-    checkmarks.forEach((checkmark, index) => {
-      if(checkmark.checked) {
-        items[index].style.display = "none";
-      }
-    })
-
-    itemsCount.textContent = count.active;
-    currentFilter.active = true;
-    currentFilter.inactive = true;
-    currentFilter.all = false;
-  })
-
+  active.addEventListener('change', getAllActive)
 })
 
 filterInactive.forEach(inactive => {
-
-  inactive.addEventListener('change', () => {
-    filterReset();
-    const items = todoList.querySelectorAll(".items")
-    const checkmarks = todoList.querySelectorAll(".checkmark");
-
-    checkmarks.forEach((checkmark, index) => {
-      if(!checkmark.checked) {
-        items[index].style.display = "none";
-      }
-    })
-
-    itemsCount.textContent = count.inactive;
-    currentFilter.inactive = true;
-    currentFilter.active = false;
-    currentFilter.all = false;
-  })
-
+  inactive.addEventListener('change', getAllInactive)
 })
 
 function todoListMinHeight() {
@@ -306,4 +337,91 @@ function todoListMinHeight() {
 }
 
 todoListMinHeight();
-todoList.addEventListener('resize', todoListMinHeight);
+window.addEventListener('resize', todoListMinHeight);
+
+// Drag and Drop
+// 1. Add dragstart and dragend event listeners to draggables
+
+// 2. Add dragover event listener to container and use e.preventDefault 
+//    to remove the not allowed cursor
+
+// 3. Inside the dragover event, get the dragged element
+
+// 4. Create a function that returns the closest element where you hover your mouse
+
+// 5. The function must accept container and clientY or the y position of the mouse
+
+// 6. Inside the function, get all the draggable objects that is not currently dragged
+//    then put it inside an array and use the spread operator
+
+// 7. Use the reduce function on the array. The reduce must have the accumulator
+//    and the current element it is iterating then a call back. The initial value must be an object
+//    that contains the lowest posible value (Number.NEGATIVE_INFINITY)
+//    array.reduce((accumulator, curr), callback, { initialValue: value})
+
+// 8. Get the getBoundingClientRect() of the current element (curr) and store it inside
+//    a variable ("rect" for example)
+
+// 9. Create a variable that holds the offset computation using the drag and drop formula
+//    by getting the values from the current element getBoundingClientRect() variable
+//    The formula is clientY - rect.top - rect.height / 2.
+//    If the output is negative the offset is at the top
+//    If the output is positive the offset is at the bottom
+
+//10. Create an if else using the calculated offset using the formula above
+//    Since we are targeting the element closest from the top offset:
+//    if offset is negative and is greater than the accumulator (which holds the initial value at first iteration)
+//    then return the computed offset as the new accumulator as well as the current element as key-value pairs
+//    else just return the computed offset as the new accumulator and then it becomes
+//    the new reference for the if else condition
+
+//11. Return the reduce function's current element using the stored key-value pair for current element
+//    by using the dot notation (reduce().element)
+
+//12. Back in the dragover event, create a variable that will store the closest element returned from the \
+//    function we created
+
+//13. Create an if else with conditions:
+//    if the returned element is null then append the element at the end of the list 
+//    else insert the dragged element before the returned element
+
+// End
+
+todoList.addEventListener('dragstart', (e) => {
+  if(e.target.classList.contains("items")) {
+    e.target.classList.add("dragging");
+  }
+})
+
+todoList.addEventListener('dragend', (e) => {
+  if(e.target.classList.contains("items")) {
+    e.target.classList.remove("dragging");
+  }
+})
+
+todoList.addEventListener('dragover', (e) => {
+  e.preventDefault();
+  const afterElement = getAfterElement(e.clientY);
+  const dragged = document.querySelector(".dragging");
+
+  if(afterElement == null) {
+    todoList.appendChild(dragged);
+  } else {
+    todoList.insertBefore(dragged, afterElement);
+  }
+})
+
+function getAfterElement(y) {
+  const draggables = [...todoList.querySelectorAll(".items:not(.dragging)")]
+
+  return draggables.reduce((closestPosition, currentElement) => {
+    const rect = currentElement.getBoundingClientRect();
+    const offset = y - rect.top - rect.height / 2;
+
+    if(offset < 0 && offset > closestPosition.offset) {
+      return { offset: offset, element: currentElement};
+    } else {
+      return closestPosition;
+    }
+  }, { offset: Number.NEGATIVE_INFINITY, element: null } ).element
+}

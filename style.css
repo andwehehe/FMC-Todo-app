@@ -231,6 +231,11 @@ body {
   background-color: var(--navy-900);
 }
 
+.completed {
+  text-decoration: line-through;
+  color: var(--navy-850);
+}
+
 /* > > > Status Bar < < < */
 .status-bar {
   display: flex;
@@ -388,4 +393,9 @@ body
 .light-theme .filter__label:hover,
 .light-theme .clear-completed:hover {
   color: var(--navy-850);
+}
+
+.dragging {
+  opacity: 0.3;
+  cursor: move;
 }
